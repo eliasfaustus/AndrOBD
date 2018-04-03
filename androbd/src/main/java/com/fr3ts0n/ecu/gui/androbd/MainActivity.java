@@ -1051,7 +1051,7 @@ public class MainActivity extends PluginManager
 					// handle ECU detection event
 					case MESSAGE_OBD_ECUS:
 						evt = (PropertyChangeEvent) msg.obj;
-						selectEcu((Set<Integer>) evt.getNewValue());
+						selectEcu((Set<Long>) evt.getNewValue());
 						break;
 
 					// handle negative result code from OBD protocol
@@ -1176,7 +1176,7 @@ public class MainActivity extends PluginManager
 	 * Prompt for selection of a single ECU from list of available ECUs
 	 * @param ecuAdresses List of available ECUs
 	 */
-	protected void selectEcu(final Set<Integer> ecuAdresses)
+	protected void selectEcu(final Set<Long> ecuAdresses)
 	{
 		// if more than one ECUs available ...
 		if(ecuAdresses.size() > 1)
@@ -1197,7 +1197,7 @@ public class MainActivity extends PluginManager
 				final CharSequence[] entries = new CharSequence[ecuAdresses.size()];
 				// create list of entries
 				int i = 0;
-				for (Integer addr : ecuAdresses)
+				for (Long addr : ecuAdresses)
 				{
 					entries[i++] = String.format("0x%X", addr);
 				}
@@ -1209,11 +1209,11 @@ public class MainActivity extends PluginManager
 						@Override
 						public void onClick(DialogInterface dialog, int which)
 						{
-							int address = Integer.parseInt(entries[which].toString().substring(2), 16);
+							long address = Long.parseLong(entries[which].toString().substring(2), 16);
 							// set address
 							CommService.elm.setEcuAddress(address);
 							// set this as preference (preference change will trigger ELM command)
-							prefs.edit().putInt(PRESELECT.LAST_ECU_ADDRESS.toString(), address).apply();
+							prefs.edit().putLong(PRESELECT.LAST_ECU_ADDRESS.toString(), address).apply();
 						}
 					})
 					.show();

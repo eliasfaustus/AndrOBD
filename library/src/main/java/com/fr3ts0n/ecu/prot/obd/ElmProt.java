@@ -61,11 +61,11 @@ public class ElmProt
 	static private PROT preferredProtocol = PROT.ELM_PROT_AUTO;
 
 	/** list of identified ECU addresses */
-	private TreeSet<Integer> ecuAddresses = new TreeSet<Integer>();
+	private TreeSet<Long> ecuAddresses = new TreeSet<>();
 	/** selected ECU address */
-	private int selectedEcuAddress = 0;
+	private long selectedEcuAddress = 0;
 	/** custom ELM initialisation commands */
-	Vector<String> customInitCommands = new Vector<String>();
+	Vector<String> customInitCommands = new Vector<>();
 
 	/**
 	 * ELM protocol ID's
@@ -421,7 +421,7 @@ public class ElmProt
 	 * set ECU address to be received
 	 * @param ecuAddress ECU address to be filtered / 0 = clear address filter
 	 */
-	public void setEcuAddress(int ecuAddress)
+	public void setEcuAddress(long ecuAddress)
 	{
 		log.info(String.format("Set ECU address: 0x%x", ecuAddress));
 		selectedEcuAddress = ecuAddress;
@@ -451,7 +451,7 @@ public class ElmProt
 	 * @param param parameter for ELM command (0 if not required)
 	 * @return command char sequence or NULL if command disabled/invalid
 	 */
-	public String createCommand(CMD cmdID, int param)
+	public String createCommand(CMD cmdID, long param)
 	{
 		String cmd = null;
 		if(cmdID.isEnabled())
@@ -487,7 +487,7 @@ public class ElmProt
 	 * @param cmdID ID of ELM command
 	 * @param param parameter for ELM command (0 if not required)
 	 */
-	public void pushCommand(CMD cmdID, int param)
+	public void pushCommand(CMD cmdID, long param)
 	{
 		String cmd = createCommand(cmdID, param);
 		if(cmd != null)	cmdQueue.add(cmd);
@@ -792,7 +792,7 @@ public class ElmProt
 							String address = bufferStr.substring(0, adrEnd);
 							log.fine(String.format("Found ECU address: 0x%s", address));
 							// and add to list of addresses
-							ecuAddresses.add(Integer.valueOf(address, 16));
+							ecuAddresses.add(Long.valueOf(address, 16));
 						}
 						return lastRxMsg.length();
 					}

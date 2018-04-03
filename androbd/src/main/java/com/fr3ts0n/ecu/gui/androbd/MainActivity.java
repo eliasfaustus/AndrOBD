@@ -1181,7 +1181,7 @@ public class MainActivity extends PluginManager
 		// if more than one ECUs available ...
 		if(ecuAdresses.size() > 1)
 		{
-			int preferredAddress = prefs.getInt(PRESELECT.LAST_ECU_ADDRESS.toString(), 0);
+			long preferredAddress = prefs.getLong(PRESELECT.LAST_ECU_ADDRESS.toString(), 0);
 			// check if last preferred address matches any of the reported addresses
 			if(istRestoreWanted(PRESELECT.LAST_ECU_ADDRESS)
 			   && ecuAdresses.contains(preferredAddress))
